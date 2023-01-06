@@ -1,48 +1,39 @@
 package com.alcas.cursomc.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Produto implements Serializable {
-
+public class Cidade implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer Id;
-
+	
 	private String nome;
-
-	private Double preco;
-
-	@JsonBackReference //omite a lista de categorias para cada produto
-	@ManyToMany
-	@JoinTable(name = "PRODUTO_CATEGORIA", 
-				joinColumns = @JoinColumn(name = "produto_id"), 
-				inverseJoinColumns = @JoinColumn(name = "categoria_id"))
-	private List<Categoria> categorias = new ArrayList<>();
-
-	public Produto() {
-
+	
+	@ManyToOne
+	@JoinColumn(name="estado_id")
+	private Estado estado;
+	
+	public Cidade() {
+		
 	}
-
-	public Produto(Integer id, String nome, Double preco) {
+	
+	public Cidade(Integer id, String nome, Estado estado) {
 		super();
 		Id = id;
 		this.nome = nome;
-		this.preco = preco;
+		this.estado = estado;
 	}
 
 	public Integer getId() {
@@ -61,20 +52,12 @@ public class Produto implements Serializable {
 		this.nome = nome;
 	}
 
-	public Double getPreco() {
-		return preco;
+	public Estado getEstado() {
+		return estado;
 	}
 
-	public void setPreco(Double preco) {
-		this.preco = preco;
-	}
-
-	public List<Categoria> getCategorias() {
-		return categorias;
-	}
-
-	public void setCategorias(List<Categoria> categorias) {
-		this.categorias = categorias;
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
 
 	@Override
@@ -90,8 +73,9 @@ public class Produto implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Produto other = (Produto) obj;
+		Cidade other = (Cidade) obj;
 		return Objects.equals(Id, other.Id);
 	}
-
+	
+	
 }
