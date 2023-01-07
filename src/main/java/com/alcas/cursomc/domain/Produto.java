@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,7 +26,8 @@ public class Produto implements Serializable {
 
 	private Double preco;
 
-	@JsonBackReference //omite a lista de categorias para cada produto
+	//@JsonBackReference //omite a lista de categorias para cada produto
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "PRODUTO_CATEGORIA", 
 				joinColumns = @JoinColumn(name = "produto_id"), 
